@@ -173,7 +173,7 @@ function S3MP(options) {
 S3MP.prototype.initiateMultipart = function(upload, cb) {
   var url, body, xhr;
 
-  url = '/s3_multipart/uploads';
+  url = window.location.origin + '/s3_multipart/uploads';
   body = JSON.stringify({ object_name  : upload.name,
                           content_type : upload.type,
                           uploader     : $(this.fileInputElement).data("uploader")
@@ -191,7 +191,7 @@ S3MP.prototype.signPartRequests = function(id, object_name, upload_id, parts, cb
     return memo + "-" + part.size;
   }, parts[0].size);
 
-  url = "s3_multipart/uploads/"+id;
+  url = window.location.origin + "/s3_multipart/uploads/"+id;
   body = JSON.stringify({ object_name     : object_name,
                           upload_id       : upload_id,
                           content_lengths : content_lengths
@@ -204,7 +204,7 @@ S3MP.prototype.signPartRequests = function(id, object_name, upload_id, parts, cb
 S3MP.prototype.completeMultipart = function(uploadObj, cb) {
   var url, body, xhr;
 
-  url = 's3_multipart/uploads/'+uploadObj.id;
+  url = window.location.origin + '/s3_multipart/uploads/'+uploadObj.id;
   body = JSON.stringify({ object_name    : uploadObj.object_name,
                           upload_id      : uploadObj.upload_id,
                           content_length : uploadObj.size,
