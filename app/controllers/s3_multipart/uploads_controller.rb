@@ -2,6 +2,8 @@ module S3Multipart
   class UploadsController < ApplicationController
     def create
       begin
+        logger.info '*CREATE*'
+        logger.info params
         response = Upload.initiate(params)
         upload = Upload.create(key: response["key"], upload_id: response["upload_id"], name: response["name"], uploader: params["uploader"])
         response["id"] = upload["id"]

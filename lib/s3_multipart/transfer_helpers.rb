@@ -5,6 +5,8 @@ module S3Multipart
   module TransferHelpers
 
     def initiate(options)
+      logger.info '*initiate*'
+      logger.info options
       real_name = options[:object_name]
       unique_name = UUID.generate + real_name.match(/.[A-Za-z0-9]+$/)[0] # clean this up later
       url = "/#{unique_name}?uploads"
@@ -14,6 +16,9 @@ module S3Multipart
 
       response = Http.post url, {headers: headers}
       parsed_response_body = XmlSimple.xml_in(response.body)  
+      
+      logger.info '*response*'
+      logger.info parsed_response_body
 
       return { "key"  => parsed_response_body["Key"][0],
                "upload_id"   => parsed_response_body["UploadId"][0],
